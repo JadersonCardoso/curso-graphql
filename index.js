@@ -13,17 +13,35 @@ const typeDefs = gql`
         vip: Boolean
     }
 
+    #Criando tipo produto para o dasafio
+    type Produto {
+        nome: String!
+        preco: Float!
+        desconto: Float
+        precoComDesconto: Float
+    }
+
     # Pontos de entrada da sua API!
     type Query {
         ola: String
         horaCerta: Date
         usuarioLogado: Usuario
+        produtoEmDestaque: Produto
     }
 `
 const resolvers = {
     Usuario: {
         salario(usuario) {
             return usuario.salario_real
+        }
+    },
+    Produto:{
+        precoComDesconto(produto) {
+            if (produto.desconto) {
+                return produto.preco * ( 1 - produto.desconto)
+            } else {
+                return produto.preco
+            }
         }
     },
     Query: {
@@ -42,7 +60,15 @@ const resolvers = {
                 salario_real: 125.56,
                 vip: true
             }
+        },
+        produtoEmDestaque() {
+            return {
+                nome: 'Camisa Gamer',
+                preco: 56.00,
+                desconto: 0.5
+            }
         }
+        
 
     }
 }
