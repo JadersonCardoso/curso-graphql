@@ -27,6 +27,7 @@ const typeDefs = gql`
         horaCerta: Date
         usuarioLogado: Usuario
         produtoEmDestaque: Produto
+        numerosMegaSena: [Int!]!
     }
 `
 const resolvers = {
@@ -67,6 +68,12 @@ const resolvers = {
                 preco: 56.00,
                 desconto: 0.5
             }
+        },
+        numerosMegaSena() {
+            const crescente = (a, b) => a - b
+            return Array(6).fill(0)
+            .map(n => parseInt(Math.random() * 60 + 1))
+            .sort(crescente)
         }
         
 
